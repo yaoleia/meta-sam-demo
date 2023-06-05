@@ -68,34 +68,46 @@ const queryModelReturnTensors = async ({
   if (!API_ENDPOINT) return;
   if (!ALL_MASK_API_ENDPOINT) return;
   // console.log("post-queryModelReturnTensors");
-  const segRequest =
-    imgName && !shouldDownload
-      ? fetch(`/assets/gallery/${imgName}.txt`)
-      : fetch(`${API_ENDPOINT}`, {
-          method: "POST",
-          body: blob,
-        });
-  segRequest.then(async (segResponse) => {
-    if (shouldDownload) {
-      const segResponseClone = segResponse.clone();
-      const segResponseBlob = await segResponseClone.blob();
-      downloadBlob(segResponseBlob, imgName);
-    }
-    const segJSON = await segResponse.json();
-    const embedArr = segJSON.map((arrStr: string) => {
-      const binaryString = window.atob(arrStr);
-      const uint8arr = new Uint8Array(binaryString.length);
-      for (let i = 0; i < binaryString.length; i++) {
-        uint8arr[i] = binaryString.charCodeAt(i);
+
+  let bol = true
+  function getModal() {
+    const segRequest =
+      bol && imgName && !shouldDownload
+        ? fetch(`/assets/gallery/${imgName}.txt`)
+        : fetch(`${API_ENDPOINT}`, {
+            method: "POST",
+            body: blob,
+          });
+    segRequest.then(async (segResponse) => {
+      if (shouldDownload) {
+        const segResponseClone = segResponse.clone();
+        const segResponseBlob = await segResponseClone.blob();
+        downloadBlob(segResponseBlob, imgName);
       }
-      const float32Arr = new Float32Array(uint8arr.buffer);
-      return float32Arr;
+      const segJSON = await segResponse.json();
+      const embedArr = segJSON.map((arrStr: string) => {
+        const binaryString = window.atob(arrStr);
+        const uint8arr = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+          uint8arr[i] = binaryString.charCodeAt(i);
+        }
+        const float32Arr = new Float32Array(uint8arr.buffer);
+        return float32Arr;
+      });
+      const lowResTensor = new Tensor("float32", embedArr[0], [1, 256, 64, 64]);
+      handleSegModelResults({
+        tensor: lowResTensor,
+      });
+    }).catch(err => {
+      if (bol) {
+        bol = false
+        getModal()
+      }
     });
-    const lowResTensor = new Tensor("float32", embedArr[0], [1, 256, 64, 64]);
-    handleSegModelResults({
-      tensor: lowResTensor,
-    });
-  });
+  }
+
+  getModal()
+
   if (!shouldNotFetchAllModel) {
     const allImgName = imgName + ".all";
     const allRequest =

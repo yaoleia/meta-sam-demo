@@ -398,9 +398,9 @@ const App = () => {
       let imgName: string = "";
       if (data instanceof URL) {
         imgName = data.pathname;
-      } else if (data instanceof String) {
+      } else if (typeof data === 'string') {
         // TODO: find the right place where to replace it...
-        data = new URL(data.replace('/assets/', '/public/assets/'));
+        data = new URL(data);
         imgName = data.pathname;
       }
       imgName = imgName.substring(imgName.lastIndexOf("/") + 1);
