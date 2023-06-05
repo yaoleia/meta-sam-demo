@@ -2,7 +2,8 @@ FROM node:14.18.0
 
 WORKDIR /app
 
-RUN npm config set registry https://registry.npm.taobao.org
+RUN npm config set registry https://registry.npmmirror.com/
+RUN npm config set sass_binary_site=https://registry.npmmirror.com/-/binary/node-sass
 
 COPY . .
 
