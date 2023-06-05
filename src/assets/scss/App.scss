@@ -3,54 +3,54 @@
 @tailwind utilities;
 
 @layer base {
-  @font-face {
-    font-family: "Optimistic Display";
-    src: url(../fonts/optimistic/Optimistic_Display_W_Md.woff2) format("woff2"),
-      url(../fonts/optimistic/Optimistic_Display_W_Md.woff) format("woff");
-    font-weight: 500;
-  }
+  // @font-face {
+  //   font-family: "Optimistic Display";
+  //   src: url(../fonts/optimistic/Optimistic_Display_W_Md.woff2) format("woff2"),
+  //     url(../fonts/optimistic/Optimistic_Display_W_Md.woff) format("woff");
+  //   font-weight: 500;
+  // }
 
-  @font-face {
-    font-family: "Optimistic Display";
-    src: url(../fonts/optimistic/Optimistic_Display_W_SBd.woff2) format("woff2"),
-      url(../fonts/optimistic/Optimistic_Display_W_SBd.woff) format("woff");
-    font-weight: 600;
-  }
+  // @font-face {
+  //   font-family: "Optimistic Display";
+  //   src: url(../fonts/optimistic/Optimistic_Display_W_SBd.woff2) format("woff2"),
+  //     url(../fonts/optimistic/Optimistic_Display_W_SBd.woff) format("woff");
+  //   font-weight: 600;
+  // }
 
-  @font-face {
-    font-family: "Optimistic Display";
-    src: url(../fonts/optimistic/Optimistic_Display_W_Bd.woff2) format("woff2"),
-      url(../fonts/optimistic/Optimistic_Display_W_Bd.woff) format("woff");
-    font-weight: 700;
-  }
+  // @font-face {
+  //   font-family: "Optimistic Display";
+  //   src: url(../fonts/optimistic/Optimistic_Display_W_Bd.woff2) format("woff2"),
+  //     url(../fonts/optimistic/Optimistic_Display_W_Bd.woff) format("woff");
+  //   font-weight: 700;
+  // }
 
-  @font-face {
-    font-family: "Optimistic Text";
-    src: url(../fonts/optimistic/Optimistic_Text_W_Rg.woff2) format("woff2"),
-      url(../fonts/optimistic/Optimistic_Text_W_Rg.woff) format("woff");
-    font-weight: 400;
-  }
+  // @font-face {
+  //   font-family: "Optimistic Text";
+  //   src: url(../fonts/optimistic/Optimistic_Text_W_Rg.woff2) format("woff2"),
+  //     url(../fonts/optimistic/Optimistic_Text_W_Rg.woff) format("woff");
+  //   font-weight: 400;
+  // }
 
-  @font-face {
-    font-family: "Optimistic Text";
-    src: url(../fonts/optimistic/Optimistic_Text_W_Md.woff2) format("woff2"),
-      url(../fonts/optimistic/Optimistic_Text_W_Md.woff) format("woff");
-    font-weight: 500;
-  }
+  // @font-face {
+  //   font-family: "Optimistic Text";
+  //   src: url(../fonts/optimistic/Optimistic_Text_W_Md.woff2) format("woff2"),
+  //     url(../fonts/optimistic/Optimistic_Text_W_Md.woff) format("woff");
+  //   font-weight: 500;
+  // }
 
-  @font-face {
-    font-family: "Optimistic Text";
-    src: url(../fonts/optimistic/Optimistic_Text_W_Bd.woff2) format("woff2"),
-      url(../fonts/optimistic/Optimistic_Text_W_Bd.woff) format("woff");
-    font-weight: 700;
-  }
+  // @font-face {
+  //   font-family: "Optimistic Text";
+  //   src: url(../fonts/optimistic/Optimistic_Text_W_Bd.woff2) format("woff2"),
+  //     url(../fonts/optimistic/Optimistic_Text_W_Bd.woff) format("woff");
+  //   font-weight: 700;
+  // }
 
-  @font-face {
-    font-family: "Optimistic Text";
-    src: url(../fonts/optimistic/Optimistic_Text_W_XBd.woff2) format("woff2"),
-      url(../fonts/optimistic/Optimistic_Text_W_XBd.woff) format("woff");
-    font-weight: 800;
-  }
+  // @font-face {
+  //   font-family: "Optimistic Text";
+  //   src: url(../fonts/optimistic/Optimistic_Text_W_XBd.woff2) format("woff2"),
+  //     url(../fonts/optimistic/Optimistic_Text_W_XBd.woff) format("woff");
+  //   font-weight: 800;
+  // }
 }
 
 body {
