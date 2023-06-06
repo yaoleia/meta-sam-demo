@@ -109,9 +109,10 @@ const App = () => {
     const initModel = async () => {
       try {
         // if (process.env.MODEL_DIR === undefined) return;
-        const MODEL_DIR = "./interactive_module_quantized_592547_2023_03_19_sam6_long_uncertain.onnx";
+        const MODEL_DIR = "/interactive_module_quantized_592547_2023_03_19_sam6_long_uncertain.onnx";
         const URL: string = MODEL_DIR;
         // const URL: string = process.env.MODEL_DIR;
+        console.log('URL1:', URL)
         const model = await InferenceSession.create(URL);
         setModel(model);
       } catch (e) {
@@ -121,12 +122,12 @@ const App = () => {
       try {
         // console.log("MULTI MASK MODEL");
         // if (process.env.MULTI_MASK_MODEL_DIR === undefined) return;
-        const MULTI_MASK_MODEL_DIR = "./interactive_module_quantized_592547_2023_03_20_sam6_long_all_masks_extra_data_with_ious.onnx";
+        const MULTI_MASK_MODEL_DIR = "/interactive_module_quantized_592547_2023_03_20_sam6_long_all_masks_extra_data_with_ious.onnx";
         const URL2: string = MULTI_MASK_MODEL_DIR;
-        // console.log("MULTI MASK MODEL URL:", URL2);
+        console.log("MULTI MASK MODEL URL2:", URL2);
         // const URL2: string = process.env.MULTI_MASK_MODEL_DIR;
         const multiMaskModel = await InferenceSession.create(URL2);
-        // console.log("multiMaskModel:", multiMaskModel);
+        console.log("multiMaskModel:", multiMaskModel);
         setMultiMaskModel(multiMaskModel);
       } catch (e) {
         // console.log("MULTI MASK MODEL:", e);
