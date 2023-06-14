@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import * as _ from "underscore";
-import Canvas from "./Canvas";
 import FeatureSummary from "./FeatureSummary";
 import {
   AnnotationProps,
@@ -22,6 +21,9 @@ import MobileSegmentDrawer from "./MobileSegmentDrawer";
 import PointsModal from "./PointsModal";
 import SegmentDrawer from "./SegmentDrawer";
 import ToolTip from "./ToolTip";
+
+import KonvaRender from "./KonvaRender";
+import { img, polys } from "./KonvaRender/polygon";
 
 type Points = { sx: number; sy: number; x: number; y: number };
 
@@ -190,7 +192,7 @@ const Stage = ({
     const konvaClone = konvaRef.current.clone();
     const svgLayer = konvaClone.findOne(".svgMask");
     const pathNodes = svgLayer.find("Path");
-    const imageNode = svgLayer.find("Image")[0];
+    const imageNode = konvaClone.findOne(".image").find("Image")[0];
     if (segmentTypes === "All") {
       for (const pathNode of pathNodes) {
         pathNode.attrs.visible = true;
@@ -198,8 +200,6 @@ const Stage = ({
     }
     const newStickers: HTMLCanvasElement[] = [];
     let counter = 0;
-    konvaClone.findOne(".annotations").hide();
-    konvaClone.findOne(".animateAllSvg").hide();
     svgLayer.globalCompositeOperation("destination-atop");
     imageNode.opacity(-1);
     imageNode.remove();
@@ -620,22 +620,15 @@ const Stage = ({
                   : { height: canvasHeight }
               }
             >
-              <Canvas
+              {/* <Canvas
+                image={image}
                 konvaRef={konvaRef}
-                annotations={annotations}
-                newAnnotation={newAnnotation}
-                scale={scale}
                 handleMouseUp={handleMouseUp}
                 handleMouseDown={handleMouseDown}
                 handleMouseMove={handleMouseMove}
                 handleMouseOut={handleMouseOut}
-                containerRef={containerRef}
-                hasClicked={hasClicked}
-                setCanvasScale={setCanvasScale}
-                isStandalone={isStandalone}
-                isHoverToolTip={[isHoverToolTip, setIsHoverToolTip]}
-                allText={[allText, setAllText]}
-              />
+                style={{ width: 300 }}
+              /> */}
               <div
                 className={`absolute top-0 right-0 bottom-0 left-0 bg-opacity-70 bg-black flex items-center justify-center text-white text-lg font-bold transition-opacity ${
                   shouldShowHomepageOverlay
@@ -713,20 +706,11 @@ const Stage = ({
                       // console.log(`${id} took ${actualDuration}ms`);
                     }}
                   >
-                    <Canvas
+                    <KonvaRender
+                      imageSrc={img}
+                      polygons={polys}
                       konvaRef={konvaRef}
-                      annotations={annotations}
-                      newAnnotation={newAnnotation}
-                      scale={scale}
-                      handleMouseUp={handleMouseUp}
-                      handleMouseDown={handleMouseDown}
-                      handleMouseMove={handleMouseMove}
-                      handleMouseOut={handleMouseOut}
-                      containerRef={containerRef}
-                      hasClicked={hasClicked}
-                      setCanvasScale={setCanvasScale}
-                      isHoverToolTip={[isHoverToolTip, setIsHoverToolTip]}
-                      allText={[allText, setAllText]}
+                      style={{ width: "500px" }}
                     />
                   </Profiler>
                 </div>

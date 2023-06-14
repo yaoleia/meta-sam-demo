@@ -1,63 +1,56 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
-import AppContext from "./hooks/createContext";
+import React, { useEffect, useState, useRef, useMemo } from "react";
+import shortid from "shortid";
 
 interface SvgMaskProps {
+  image?: any;
   xScale: number;
   yScale: number;
   svgStr: string;
-  id?: string | undefined;
   className?: string | undefined;
+  color?: string | undefined;
 }
 
 const SvgMask = ({
+  image,
   xScale,
   yScale,
   svgStr,
-  id = "",
   className = "",
+  color = "#1d85bb",
 }: SvgMaskProps) => {
-  const {
-    click: [click, setClick],
-    image: [image],
-    isLoading: [isLoading, setIsLoading],
-    canvasWidth: [, setCanvasWidth],
-    canvasHeight: [, setCanvasHeight],
-    isErasing: [isErasing, setIsErasing],
-    svg: [svg],
-    isMultiMaskMode: [isMultiMaskMode, setIsMultiMaskMode],
-  } = useContext(AppContext)!;
-  const [key, setKey] = useState(Math.random());
+  const wrapId = useMemo(() => `svg_mask_${shortid.generate()}`, []);
+
   const [boundingBox, setBoundingBox] = useState<DOMRect | undefined>(
     undefined
   );
   const pathRef = useRef<SVGPathElement>(null);
+
   const getBoundingBox = () => {
     if (!pathRef?.current) return;
     setBoundingBox(pathRef.current.getBBox());
   };
+
   useEffect(() => {
-    if (!isLoading) {
-      setKey(Math.random());
-    }
     getBoundingBox();
-  }, [svg]);
+  }, [svgStr]);
+
   const bbX = boundingBox?.x;
   const bbY = boundingBox?.y;
   const bbWidth = boundingBox?.width;
   const bbHeight = boundingBox?.height;
   const bbMiddleY = bbY && bbHeight && bbY + bbHeight / 2;
   const bbWidthRatio = bbWidth && bbWidth / xScale;
+
   return (
     <svg
       className={`absolute w-full h-full pointer-events-none ${className}`}
       xmlns="http://www.w3.org/2000/svg"
       viewBox={`0 0 ${xScale} ${yScale}`}
-      key={key}
     >
-      {!isMultiMaskMode && bbX && bbWidth && (
+      {bbX && bbWidth && (
         <>
           <radialGradient
-            id={"gradient" + id}
+            id={"gradient" + wrapId}
             cx={0}
             cy={0}
             r={bbWidth}
@@ -75,7 +68,7 @@ const SvgMask = ({
               type="scale"
               from={0}
               to={12}
-              dur={`1.5s`}
+              dur={`1s`}
               begin={".3s"}
               fill={"freeze"}
               additive="sum"
@@ -83,51 +76,54 @@ const SvgMask = ({
           </radialGradient>
         </>
       )}
-      <clipPath id={"clip-path" + id}>
+      <clipPath id={"clip-path" + wrapId}>
         <path d={svgStr} />
       </clipPath>
-      <filter id={"glow" + id} x="-50%" y="-50%" width={"200%"} height={"200%"}>
-        <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="#1d85bb" />
-        <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#1d85bb" />
-        <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="#1d85bb" />
+      <filter
+        id={"glow" + wrapId}
+        x="-50%"
+        y="-50%"
+        width={"200%"}
+        height={"200%"}
+      >
+        <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor={color} />
+        <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor={color} />
+        <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor={color} />
       </filter>
       <image
         width="100%"
         height="100%"
         xlinkHref={image?.src}
-        clipPath={`url(#clip-path${id})`}
+        clipPath={`url(#clip-path${wrapId})`}
       />
-      {!click && (!isLoading || isErasing) && (
-        <>
-          {!isMultiMaskMode && bbWidthRatio && (
-            <path
-              id={"mask-gradient" + id}
-              className={`mask-gradient ${
-                bbWidthRatio > 0.5 && window.innerWidth < 768 ? "hidden" : ""
-              }`}
-              d={svgStr}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeOpacity="0"
-              fillOpacity="1"
-              fill={`url(#gradient${id})`}
-            />
-          )}
-          <path
-            id={"mask-path" + id}
-            className="mask-path"
-            d={svgStr}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeOpacity=".8"
-            fillOpacity="0"
-            stroke="#1d85bb"
-            strokeWidth="3"
-            ref={pathRef}
-            filter={`url(#glow${id})`}
-          />
-        </>
+      {bbWidthRatio && (
+        <path
+          id={"mask-gradient" + wrapId}
+          className={`mask-gradient ${
+            bbWidthRatio > 0.5 && window.innerWidth < 768 ? "hidden" : ""
+          }`}
+          d={svgStr}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeOpacity="0"
+          fillOpacity="1"
+          fill={`url(#gradient${wrapId})`}
+        />
       )}
+      <path
+        id={"mask-path" + wrapId}
+        className="mask-path"
+        d={svgStr}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeOpacity=".8"
+        fillOpacity="0"
+        fill={color}
+        stroke={color}
+        strokeWidth="3"
+        ref={pathRef}
+        filter={`url(#glow${wrapId})`}
+      />
     </svg>
   );
 };

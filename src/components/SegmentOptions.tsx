@@ -154,7 +154,7 @@ const SegmentOptions = ({
           <span className="pl-2 opacity-70">Erase Object</span>
         </button> */}
         <button
-          className={`flex ${!svg && segmentTypes !== "All" && "disabled"} `}
+          // className={`flex ${!svg && segmentTypes !== "All" && "disabled"} `}
           onClick={(e) => {
             handleCreateSticker();
             e.stopPropagation();

@@ -38,6 +38,7 @@
     "react-swipeable": "^7.0.0",
     "sass": "^1.61.0",
     "scheduler": "^0.23.0",
+    "shortid": "^2.2.16",
     "style-loader": "^3.3.2",
     "swipeable": "^1.0.5",
     "tslib": "^2.5.0",
@@ -70,6 +71,7 @@
     ]
   },
   "devDependencies": {
+    "@types/shortid": "^0.0.29",
     "@types/underscore": "^1.11.4",
     "webpack-cli": "^5.0.1"
   }
